@@ -5,3 +5,5 @@ class WordCardsEvent with _$WordCardsEvent {
   const factory WordCardsEvent.next() = _Next;
   const factory WordCardsEvent.back() = _Back;
 }
+
+
