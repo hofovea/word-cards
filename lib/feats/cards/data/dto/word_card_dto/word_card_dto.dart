@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gsheets/gsheets.dart';
-import 'package:word_cards/core/domain/dto/dto_interface.dart';
 import 'package:word_cards/feats/cards/domain/entities/entities.dart' show WordCardEntity;
 
 part 'word_card_dto.freezed.dart';
@@ -8,7 +7,7 @@ part 'word_card_dto.freezed.dart';
 part 'word_card_dto.g.dart';
 
 @freezed
-class WordCardDto with _$WordCardDto implements IDto<WordCardEntity> {
+class WordCardDto with _$WordCardDto {
   const WordCardDto._();
 
   const factory WordCardDto({
@@ -29,11 +28,13 @@ class WordCardDto with _$WordCardDto implements IDto<WordCardEntity> {
     );
   }
 
-  @override
-  toEntity() => WordCardEntity(
-        cardId: cardId,
-        word: word,
-        translation: translation,
-        imageId: imageId,
-      );
+  WordCardEntity toEntity(Map<String, String> imageUrlMap) {
+    print('INSODE DTO MAPPER $imageUrlMap');
+    return WordCardEntity(
+      cardId: cardId,
+      word: word,
+      translation: translation,
+      imageUrl: imageUrlMap[imageId] ?? '',
+    );
+  }
 }

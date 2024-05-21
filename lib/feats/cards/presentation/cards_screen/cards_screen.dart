@@ -19,24 +19,32 @@ class CardsScreen extends StatelessWidget implements AutoRouteWrapper {
             const SizedBox(height: 30),
             const WordCard(),
             const Spacer(),
-            Row(
-              children: [
-                Flexible(
-                  child: AssetButton.back(
-                    onClick: () {
-                      BlocProvider.of<WordCardsBloc>(context).add(const WordCardsEvent.back());
-                    },
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Flexible(
-                  child: AssetButton.next(
-                    onClick: () {
-                      BlocProvider.of<WordCardsBloc>(context).add(const WordCardsEvent.next());
-                    },
-                  ),
-                ),
-              ],
+            BlocBuilder<WordCardsBloc, WordCardsState>(
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    Flexible(
+                      child: AssetButton.back(
+                        onClick: () {
+                          if (state is CardChangedState) {
+                            BlocProvider.of<WordCardsBloc>(context).add(BackEvent());
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Flexible(
+                      child: AssetButton.next(
+                        onClick: () {
+                          if (state is CardChangedState) {
+                            BlocProvider.of<WordCardsBloc>(context).add(NextEvent());
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
@@ -47,7 +55,7 @@ class CardsScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => WordCardsBloc(),
+      create: (BuildContext context) => WordCardsBloc()..add(LoadCardsEvent()),
       child: this, // this as the child Important!
     );
   }

@@ -1,6 +1,30 @@
 part of 'word_cards_bloc.dart';
 
-@freezed
-class WordCardsState with _$WordCardsState {
-  const factory WordCardsState.cardChanged() = _Initial;
+sealed class WordCardsState extends Equatable {
+  final List<WordCardEntity> wordCardList;
+
+  const WordCardsState({required this.wordCardList});
+}
+
+class InitialState extends WordCardsState {
+  InitialState() : super(wordCardList: []);
+
+  @override
+  List<Object?> get props => [wordCardList];
+}
+
+class NoCardsState extends WordCardsState {
+  NoCardsState() : super(wordCardList: []);
+
+  @override
+  List<Object?> get props => [wordCardList];
+}
+
+class CardChangedState extends WordCardsState {
+  final int currentCardIndex;
+
+  const CardChangedState({required this.currentCardIndex, required super.wordCardList});
+
+  @override
+  List<Object?> get props => [currentCardIndex, wordCardList];
 }
