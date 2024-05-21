@@ -1,8 +1,7 @@
-import 'package:get_it/get_it.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:word_cards/core/data/exceptions/exceptions.dart';
 import 'package:word_cards/feats/cards/data/datasources/word_card_datasource/word_card_datasource.dart';
 import 'package:word_cards/feats/cards/data/dto/dtos.dart';
-import 'package:collection/collection.dart';
 
 class SpreadsheetDatasource implements IWordCardDatasource {
   final Spreadsheet _spreadsheet;
@@ -11,12 +10,28 @@ class SpreadsheetDatasource implements IWordCardDatasource {
 
   @override
   Future<List<WordCardDto>> loadWordCardsList() async {
-    final rows = await _spreadsheet.sheets.first.cells.allRows()
-      ..removeAt(0);
-    final r = rows.map(
-      (row) => WordCardDto.fromRow(row: row),
-    ).toList();
-    print(r);
-    return r;
+    try {
+      final rows = await _spreadsheet.sheets.first.cells.allRows()
+        ..removeAt(0);
+      return rows.map((row) => WordCardDto.fromRow(row: row)).toList();
+    } on CoreException catch (e) {
+      throw UnknownException(e.message);
+    }
   }
+
+  // @override
+  // Future<List<WordCardDto>> loadFromFromJsonList() async {
+  //   try {
+  //     final response = await http.get(Uri.parse(dotenv.get(constants.WEB_APP_URL)));
+  //     if (response.statusCode == HttpStatus.ok) {
+  //       final jsonDataList = jsonDecode(response.body) as List<dynamic>;
+  //       final r = jsonDataList.map((jsonItem) => WordCardDto.fromJson(jsonItem)).toList();
+  //       return jsonDataList.map((jsonItem) => WordCardDto.fromJson(jsonItem)).toList();
+  //     } else {
+  //       return [];
+  //     }
+  //   } on CoreException catch (e) {
+  //     throw UnknownException(e.message);
+  //   }
+  // }
 }

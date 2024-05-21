@@ -29,7 +29,6 @@ class WordCardDto with _$WordCardDto {
   }
 
   WordCardEntity toEntity(Map<String, String> imageUrlMap) {
-    print('INSODE DTO MAPPER $imageUrlMap');
     return WordCardEntity(
       cardId: cardId,
       word: word,

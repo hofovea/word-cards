@@ -17,19 +17,16 @@ class WordCardsBloc extends Bloc<WordCardsEvent, WordCardsState> {
       (event, emit) async {
         switch (event) {
           case LoadCardsEvent():
+            emit(InitialState());
             final result = await _loadWordCardList();
             result.fold(
               (failure) {
                 switch (failure) {
                   case UnknownFailure():
-                    print('INSIDE BLOC: Failure');
+                    emit(FailedLoadState());
                 }
               },
               (wordCardList) {
-                for (final a in wordCardList) {
-                  print('INSODE BLOC: ${a.word}');
-                  print('INSODE BLOC: ${a.imageUrl}');
-                }
                 if (wordCardList.isEmpty) {
                   emit(NoCardsState());
                 }
@@ -42,49 +39,32 @@ class WordCardsBloc extends Bloc<WordCardsEvent, WordCardsState> {
               },
             );
           case NextEvent():
-            print('next was pressed');
-            switch (state) {
-              case InitialState():
-                emit(
-                  CardChangedState(
-                    currentCardIndex: 0,
-                    wordCardList: state.wordCardList,
-                  ),
-                );
-              case CardChangedState():
-                final nextIndex =
-                    ((state as CardChangedState).currentCardIndex + 1) % state.wordCardList.length;
-                emit(
-                  CardChangedState(
-                    currentCardIndex: nextIndex,
-                    wordCardList: state.wordCardList,
-                  ),
-                );
-              case NoCardsState():
-              // emit(NoCardsState(wordCardList: state.wordCardList));
+            if (state is CardChangedState) {
+              final nextIndex =
+                  ((state as CardChangedState).currentCardIndex + 1) % state.wordCardList.length;
+              emit(
+                CardChangedState(
+                  currentCardIndex: nextIndex,
+                  wordCardList: state.wordCardList,
+                ),
+              );
             }
+
           case BackEvent():
-            print('back was pressed');
-            switch (state) {
-              case InitialState():
-                emit(
-                  CardChangedState(
-                    currentCardIndex: 0,
-                    wordCardList: state.wordCardList,
-                  ),
-                );
-              case CardChangedState():
-                final nextIndex =
-                    ((state as CardChangedState).currentCardIndex - 1) % state.wordCardList.length;
-                emit(
-                  CardChangedState(
-                    currentCardIndex: nextIndex,
-                    wordCardList: state.wordCardList,
-                  ),
-                );
-              case NoCardsState():
-              // emit(NoCardsState(wordCardList: state.wordCardList));
+            if (state is CardChangedState) {
+              final nextIndex =
+                  ((state as CardChangedState).currentCardIndex - 1) % state.wordCardList.length;
+              emit(
+                CardChangedState(
+                  currentCardIndex: nextIndex,
+                  wordCardList: state.wordCardList,
+                ),
+              );
             }
+          case NoConnectionEvent():
+            emit(NoConnectionState());
+          case HasConnectionEvent():
+            add(LoadCardsEvent());
         }
       },
     );

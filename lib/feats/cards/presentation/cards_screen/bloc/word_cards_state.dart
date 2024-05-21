@@ -19,6 +19,19 @@ class NoCardsState extends WordCardsState {
   @override
   List<Object?> get props => [wordCardList];
 }
+class NoConnectionState extends WordCardsState {
+  NoConnectionState() : super(wordCardList: []);
+
+  @override
+  List<Object?> get props => [wordCardList];
+}
+
+class FailedLoadState extends WordCardsState {
+  FailedLoadState() : super(wordCardList: []);
+
+  @override
+  List<Object?> get props => [wordCardList];
+}
 
 class CardChangedState extends WordCardsState {
   final int currentCardIndex;

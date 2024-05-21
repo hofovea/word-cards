@@ -1,0 +1,27 @@
+const String TYPE = 'TYPE';
+
+const String PROJECT_ID = 'PROJECT_ID';
+
+const String PRIVATE_KEY_ID = 'PRIVATE_KEY_ID';
+
+const String PRIVATE_KEY = 'PRIVATE_KEY';
+
+const String CLIENT_EMAIL = 'CLIENT_EMAIL';
+
+const String CLIENT_ID = 'CLIENT_ID';
+
+const String AUTH_URI = 'AUTH_URI';
+
+const String TOKEN_URI = 'TOKEN_URI';
+
+const String AUTH_PROVIDER_X509_CERT_URL = 'AUTH_PROVIDER_X509_CERT_URL';
+
+const String CLIENT_X509_CERT_URL = 'CLIENT_X509_CERT_URL';
+
+const String UNIVERSE_DOMAIN = 'UNIVERSE_DOMAIN';
+
+const String SPREADSHEET_ID = 'SPREADSHEET_ID';
+
+const String WEB_APP_URL = 'WEB_APP_URL';
+
+const String DEPLOYMENT_ID = 'DEPLOYMENT_ID';

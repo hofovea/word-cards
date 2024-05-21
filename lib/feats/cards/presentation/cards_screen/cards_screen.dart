@@ -55,7 +55,7 @@ class CardsScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => WordCardsBloc()..add(LoadCardsEvent()),
+      create: (BuildContext context) => WordCardsBloc(),//..add(LoadCardsEvent()),
       child: this, // this as the child Important!
     );
   }

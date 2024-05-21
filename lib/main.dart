@@ -11,7 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  service_locator.setupServiceLocator();
+  await service_locator.init();
   await service_locator.serviceLocator.allReady();
 
   runApp(const WordCardsApp());
